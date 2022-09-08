@@ -4,6 +4,38 @@ import { lastValueFrom, map } from 'rxjs';
 
 const API_HOST = 'https://reactnd-books-api.udacity.com';
 
+type Book = {
+  title: string;
+  subtitle?: string | undefined;
+  authors?: string[] | undefined;
+  publisher: string;
+  publishedDate: string;
+  description: string;
+  industryIdentifiers: { type: string; identifier: string }[];
+  readingModes: { text: boolean; image: boolean };
+  pageCount: number;
+  printType: string;
+  categories: string[];
+  averageRating: number;
+  ratingsCount: number;
+  maturityRating: string;
+  allowAnonLogging: boolean;
+  contentVersion: string;
+  imageLinks: {
+    smallThumbnail?: string | undefined;
+    thumbnail: string;
+  };
+  language: string;
+  previewLink: string;
+  infoLink: string;
+  canonicalVolumeLink: string;
+  id: string;
+};
+
+type EmptySearch = { error: string; items: [] };
+
+export type SearchResult = { books: Book[] } | EmptySearch;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -49,12 +81,10 @@ export class BooksApiService {
 
   update(book: any, shelf: string): Promise<any> {
     const url = `${API_HOST}/books/${book.id}`;
-    const headers = this.headers;
+    let headers = this.headers;
+    headers = headers.append('Content-Type', 'application/json');
     const req = this.http.put(url, JSON.stringify({ shelf }), {
-      headers: {
-        ...headers,
-        'Content-Type': 'application/json',
-      },
+      headers: headers,
     });
 
     return lastValueFrom(req).catch((e) => {
@@ -63,17 +93,13 @@ export class BooksApiService {
     });
   }
 
-  search(query: string): Promise<any> {
+  async search(query: string): Promise<SearchResult> {
     const url = `${API_HOST}/search`;
-    const headers = this.headers;
-    const req = this.http
-      .post(url, JSON.stringify({ query }), {
-        headers: {
-          ...headers,
-          'Content-Type': 'application/json',
-        },
-      })
-      .pipe(map(this.extractData));
+    let headers = this.headers;
+    headers = headers.append('Content-Type', 'application/json');
+    const req = this.http.post<SearchResult>(url, JSON.stringify({ query }), {
+      headers: headers,
+    });
 
     return lastValueFrom(req).catch((e) => {
       this.handleError(e);

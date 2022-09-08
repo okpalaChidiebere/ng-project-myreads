@@ -9,10 +9,25 @@
           However, remember that the BooksAPI.search method DOES search by title or author. So, don't worry if
           you don't find a specific author or title. Every search is limited by search terms.
         -->
-      <input type="text" placeholder="Search by title or author" />
+      <input
+        type="text"
+        placeholder="Search by title or author"
+        [(ngModel)]="query"
+        (ngModelChange)="searchBooks()"
+        appQueryTrim
+      />
     </div>
   </div>
-  <div class="search-books-results">
-    <ol class="books-grid"></ol>
+  <div *ngIf="books | async as results" class="search-books-results">
+    <h1 *ngIf="results.books.error; else listBooks">
+      Search did not return any books. Please use recommended search terms!
+    </h1>
+    <ng-template #listBooks>
+      <ol class="books-grid">
+        {{
+          results | json
+        }}
+      </ol>
+    </ng-template>
   </div>
 </div>
