@@ -4,7 +4,7 @@ import { lastValueFrom, map } from 'rxjs';
 
 const API_HOST = 'https://reactnd-books-api.udacity.com';
 
-type Book = {
+export type Book = {
   title: string;
   subtitle?: string | undefined;
   authors?: string[] | undefined;

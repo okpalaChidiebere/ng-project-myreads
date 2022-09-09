@@ -8,6 +8,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { MyReadsComponent } from './my-reads/my-reads.component';
 import { FindReadsComponent } from './find-reads/find-reads.component';
 import { QueryTrimDirective } from './find-reads/query-trim/query-trim.directive';
+import { BookItemComponent } from './book-item/book-item.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { QueryTrimDirective } from './find-reads/query-trim/query-trim.directive
     MyReadsComponent,
     FindReadsComponent,
     QueryTrimDirective,
+    BookItemComponent,
   ],
   imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
   providers: [],

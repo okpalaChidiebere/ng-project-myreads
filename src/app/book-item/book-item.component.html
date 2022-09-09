@@ -1,0 +1,25 @@
+<div class="book">
+  <div class="book-top">
+    <div
+      class="book-cover"
+      [ngStyle]="{
+        width: '128px',
+        height: '193px',
+        backgroundImage: 'url(' + book.imageLinks.smallThumbnail + ')'
+      }"
+    ></div>
+    <div class="book-shelf-changer">
+      <select>
+        <option value="move" disabled>Move to...</option>
+        <option value="currentlyReading">Currently Reading</option>
+        <option value="wantToRead">Want to Read</option>
+        <option value="read">Read</option>
+        <option value="none">None</option>
+      </select>
+    </div>
+  </div>
+  <div class="book-title">{{ book.title }}</div>
+  <ng-container *ngFor="let author of book.authors">
+    <div class="book-authors">{{ author }}</div>
+  </ng-container>
+</div>

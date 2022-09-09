@@ -24,9 +24,9 @@
     </h1>
     <ng-template #listBooks>
       <ol class="books-grid">
-        {{
-          results | json
-        }}
+        <li *ngFor="let item of results.books">
+          <app-book-item [book]="item"></app-book-item>
+        </li>
       </ol>
     </ng-template>
   </div>
