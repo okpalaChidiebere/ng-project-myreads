@@ -2,39 +2,13 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders, HttpEvent } from '@angular/common/http';
 import { lastValueFrom, map } from 'rxjs';
 
+import { Book } from '../services/shelf.service';
+
 const API_HOST = 'https://reactnd-books-api.udacity.com';
 
-export type Book = {
-  title: string;
-  subtitle?: string | undefined;
-  authors?: string[] | undefined;
-  publisher: string;
-  publishedDate: string;
-  description: string;
-  industryIdentifiers: { type: string; identifier: string }[];
-  readingModes: { text: boolean; image: boolean };
-  pageCount: number;
-  printType: string;
-  categories: string[];
-  averageRating: number;
-  ratingsCount: number;
-  maturityRating: string;
-  allowAnonLogging: boolean;
-  contentVersion: string;
-  imageLinks: {
-    smallThumbnail?: string | undefined;
-    thumbnail: string;
-  };
-  language: string;
-  previewLink: string;
-  infoLink: string;
-  canonicalVolumeLink: string;
-  id: string;
-};
-
+export type BookAPI = Omit<Book, 'shelf'>;
 type EmptySearch = { error: string; items: [] };
-
-export type SearchResult = { books: Book[] } | EmptySearch;
+export type SearchResult = { books: BookAPI[] } | EmptySearch;
 
 @Injectable({
   providedIn: 'root',
@@ -68,10 +42,11 @@ export class BooksApiService {
     });
   }
 
-  getAll(): Promise<any> {
+  async getAll(): Promise<{ books: Book[] }> {
     const url = `${API_HOST}/books`;
     const headers = this.headers;
-    const req = this.http.get(url, { headers }).pipe(map(this.extractData));
+    const req = this.http.get<{ books: Book[] }>(url, { headers });
+    // .pipe(map(this.extractData));
 
     return lastValueFrom(req).catch((e) => {
       this.handleError(e);
