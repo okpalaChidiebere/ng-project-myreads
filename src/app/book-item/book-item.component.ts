@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 
-import { Book } from '../services/shelf.service';
+import { Book, ShelfService } from '../services/shelf.service';
 
 @Component({
   selector: 'app-book-item',
@@ -10,7 +10,14 @@ import { Book } from '../services/shelf.service';
 export class BookItemComponent implements OnInit {
   @Input() book: Book;
 
-  constructor() {}
+  constructor(private shelfService: ShelfService) {}
 
-  ngOnInit(): void {}
+  ngOnInit(): void {
+    //set the default value for the control to be the current shelf the book is in.
+    this.book.shelf = this.shelfService.getBookShelf(this.book.id);
+  }
+
+  bookShelfChange() {
+    this.shelfService.onUpdateShelf(this.book);
+  }
 }

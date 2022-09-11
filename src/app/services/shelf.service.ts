@@ -29,7 +29,7 @@ export type Book = {
   infoLink: string;
   canonicalVolumeLink: string;
   id: string;
-  shelf: string;
+  shelf: 'wantToRead' | 'currentlyReading' | 'read' | 'none';
 };
 
 @Injectable({
@@ -52,5 +52,27 @@ export class ShelfService {
 
   getBooks() {
     return this.books;
+  }
+
+  updateBooks(book: Book) {
+    const mBooks = this.booksEmitter.getValue();
+
+    this.booksEmitter.next(
+      book.shelf !== 'none'
+        ? mBooks.filter((b) => b.id !== book.id).concat(book)
+        : mBooks.filter((b) => b.id !== book.id)
+    );
+  }
+
+  async onUpdateShelf(book: Book) {
+    await this.booksApi.update(book, book.shelf);
+    this.updateBooks(book);
+  }
+
+  getBookShelf(id: string) {
+    return (
+      this.booksEmitter.getValue().find((item) => item.id === id)?.shelf ??
+      'none'
+    );
   }
 }

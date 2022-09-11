@@ -9,7 +9,7 @@
       }"
     ></div>
     <div class="book-shelf-changer">
-      <select>
+      <select [(ngModel)]="book.shelf" (ngModelChange)="bookShelfChange()">
         <option value="move" disabled>Move to...</option>
         <option value="currentlyReading">Currently Reading</option>
         <option value="wantToRead">Want to Read</option>

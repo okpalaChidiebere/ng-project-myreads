@@ -54,13 +54,15 @@ export class BooksApiService {
     });
   }
 
-  update(book: any, shelf: string): Promise<any> {
+  async update(book: any, shelf: string): Promise<Map<string, string[]>> {
     const url = `${API_HOST}/books/${book.id}`;
     let headers = this.headers;
     headers = headers.append('Content-Type', 'application/json');
-    const req = this.http.put(url, JSON.stringify({ shelf }), {
-      headers: headers,
-    });
+    const req = this.http.put<Map<string, string[]>>(
+      url,
+      JSON.stringify({ shelf }),
+      { headers }
+    );
 
     return lastValueFrom(req).catch((e) => {
       this.handleError(e);
