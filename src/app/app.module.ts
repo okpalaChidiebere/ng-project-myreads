@@ -10,6 +10,7 @@ import { FindReadsComponent } from './find-reads/find-reads.component';
 import { QueryTrimDirective } from './find-reads/query-trim/query-trim.directive';
 import { BookItemComponent } from './book-item/book-item.component';
 import { TitleCaseWithSpacePipe } from './pipes/title-case-with-space.pipe';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +20,7 @@ import { TitleCaseWithSpacePipe } from './pipes/title-case-with-space.pipe';
     QueryTrimDirective,
     BookItemComponent,
     TitleCaseWithSpacePipe,
+    PageNotFoundComponent,
   ],
   imports: [BrowserModule, HttpClientModule, FormsModule, AppRoutingModule],
   providers: [],
